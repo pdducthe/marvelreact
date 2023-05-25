@@ -1,0 +1,128 @@
+@import "../src/styles/scss/base/base";
+@import "../src/styles/scss/themes/variable";
+
+.text-p {
+  @include text($text-3xl, $text-regular , $text-c1-primary)
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.characterText{
+  @include respond(tablet){
+    font-size: 1em!important;
+  }
+
+  @include respond(mobile){
+    font-size: 0.5em!important;
+  }
+}
+
+.characterSubText{
+  @include respond(tablet){
+    font-size: 0.85em!important;
+  }
+
+  @include respond(mobile){
+    font-size: 0.5em!important;
+  }
+}
+
+.itemHeader{
+  @include respond(tablet){
+    font-size: 1.5em!important;
+
+  }
+
+  @include respond(mobile){
+    font-size: 1em!important;
+  }
+}
+
+.itemContent{
+  @include respond(tablet){
+    font-size: 1em!important;
+
+  }
+
+  @include respond(mobile){
+    font-size: 0.85em!important;
+  }
+}
+
+.itemDescription{
+  @include respond(tablet){
+    font-size: 1em!important;
+
+  }
+
+  @include respond(mobile){
+    font-size: 0.75em!important;
+  }
+}
+
+
+.items{
+  display: flex;
+  width: 100%;
+  min-height:0;
+  padding: 0;
+  border: none;
+  border-radius: none;
+  box-shadow: none;
+  gap: 20px;
+}
+
+.qtyColor{
+  color: aqua;
+  font-size: 1.3em;
+}
+
+.itemIcon{
+  @include respond(tablet){
+    font-size: 1em!important;
+
+  }
+
+  @include respond(mobile){
+    font-size: 0.75em!important;
+  }
+}
+
