@@ -19,14 +19,19 @@ function Header() {
     },
   })
 
+  const breakpoints = {
+    sm:0,
+    md:768,
+    lg:1024
+  }
   return (
     <div>
       <MediaContextProvider>
         <Media at='sm' >
-          <HeaderMobile />
+          <HeaderMobile size={breakpoints.sm} />
         </Media>
         <Media greaterThan='sm' >
-          <HeaderDesktop />
+          <HeaderDesktop size={breakpoints.md}/>
         </Media>
       </MediaContextProvider>
     </div>

@@ -34,7 +34,6 @@ export const fetchCharacterList = createAsyncThunk(
         method: 'GET',
         url: url,
       })
-      // console.log("RESPONSE", res.data.data.results)
       return res.data.data.results
     } catch (err: any) {
       return err.response

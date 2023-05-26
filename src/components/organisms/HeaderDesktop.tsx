@@ -3,7 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Button, Container, Header, Menu, Segment } from 'semantic-ui-react';
 import SearchComponent from './SearchComponent';
 
-function HeaderDesktop() {
+function HeaderDesktop(size:any) {
     const [header, setHeader] = useState('Welcome to the World of Comic Characters');
     const [tabSearch, setTabSearh] = useState(false);
     const path = useLocation();
@@ -28,7 +28,7 @@ function HeaderDesktop() {
                         </Menu.Item>
                         {tabSearch ? (
                             <Menu.Item>
-                                <SearchComponent></SearchComponent>
+                                <SearchComponent size= {size}></SearchComponent>
                             </Menu.Item>
                         ) : (
                             <></>

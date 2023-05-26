@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Button, Container, Header, Icon, Menu, Segment, Sidebar, SidebarPushable } from 'semantic-ui-react';
 import SearchComponent from './SearchComponent';
 
-function HeaderMobile() {
+function HeaderMobile(size:any) {
   const [sidebarOpened, setSidebarOpended] = useState(false);
   const [header, setHeader] = useState('Welcome to the World of Comic Characters');
   const [tabSearch, setTabSearh] = useState(false);
@@ -33,27 +33,27 @@ function HeaderMobile() {
             <Menu.Item as='a' active href='/'>Home</Menu.Item>
             <Menu.Item as='a'>About</Menu.Item>
             <Menu.Item as='a' href='/search'>Search</Menu.Item>
-            {tabSearch ? (
-              <Menu.Item>
-                <SearchComponent></SearchComponent>
-              </Menu.Item>
-            ) : (
-              <></>
-            )}
             <Menu.Item as='a'>Log In</Menu.Item>
             <Menu.Item as='a'>Sign Up</Menu.Item>
           </Sidebar>
           <Sidebar.Pusher dimmed={sidebarOpened}>
             <Segment inverted vertical textAlign='center' style={{ minHeight: 350, padding: '1em 0em' }}>
               <Container>
-                <Menu inverted pointing secondary size='large'>
+                <Menu inverted pointing secondary size='large' style={{ justifyContent:'space-between'}}>
                   <Menu.Item onClick={handleToggle}>
                     <Icon name='sidebar' />
                   </Menu.Item>
-                  <Menu.Item position='right'>
+                  {true ? (
+                    <Menu.Item position='right'>
+                      <SearchComponent size={size}></SearchComponent>
+                    </Menu.Item>
+                  ) : (
+                    <></>
+                  )}
+                  {/* <Menu.Item position='right'>
                     <Button as='a' inverted>Log In</Button>
                     <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </Menu>
               </Container>
               <Segment placeholder inverted vertical textAlign='center'>

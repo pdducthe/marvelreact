@@ -10,6 +10,7 @@ function CharacterList() {
   const characterList = useSelector((state: any) => state.characterSlice.characterList);
   const [imgSrc, setImgSrc] = useState('desktop');
   const [width, setWidth] = useState(window.innerWidth);
+  console.log("LIST",characterList)
 
   let size: string = ''
   useEffect(() => {

@@ -33,9 +33,8 @@ function CharacterDetail() {
       sizeRef.current = 'standard_large'
     } if(width < 600){
       sizeRef.current = 'standard_medium'
-      
     }
-  }, [window.innerWidth])
+  }, [width])
 
   return (
     <div>
