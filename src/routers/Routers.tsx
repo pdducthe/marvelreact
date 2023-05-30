@@ -12,8 +12,8 @@ const Routers = () => {
       element: <MainLayout />,
       children: [
         {
-          path: '',
-          element: <CharacterList />
+          path: 'list/page/:pageId',
+          element: <CharacterList/>
         },
         {
           path: 'detail/:characterId',

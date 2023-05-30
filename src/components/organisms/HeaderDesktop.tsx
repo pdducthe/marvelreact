@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
-import { Button, Container, Header, Menu, Segment } from 'semantic-ui-react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { Button, Container, Header, Loader, Menu, Segment } from 'semantic-ui-react';
 import SearchComponent from './SearchComponent';
+import { useSelector } from 'react-redux';
 
-function HeaderDesktop(size:any) {
+function HeaderDesktop(size: any) {
     const [header, setHeader] = useState('Welcome to the World of Comic Characters');
     const [tabSearch, setTabSearh] = useState(false);
     const path = useLocation();
+    const [activeItem, setActiveItem] = useState('home');
+    let location = useLocation();
+    const loading = useSelector((state: any) => state.characterSlice.status)
+
     useEffect(() => {
         if (path.pathname.includes("detail")) {
             setHeader("Character Marvel")
@@ -14,37 +19,47 @@ function HeaderDesktop(size:any) {
         if (path.pathname.includes("search")) {
             setTabSearh(true)
         }
+        console.log("activeitem", activeItem)
     }, [path.pathname])
+
+    // cannot setState or add/remove class for item as Link
+    const handleItemClick = (e: any, { name }: any) => {
+        // console.log("e",e.target)
+    }
 
     return (
         <div>
-            <Segment inverted textAlign='center' style={{ minHeight: '40vh' }} vertical>
-                <Menu size='large' inverted secondary>
-                    <Container>
-                        <Menu.Item as='a' active href='/'>Home</Menu.Item>
-                        <Menu.Item as='a'>About</Menu.Item>
-                        <Menu.Item as='a' href='/search'>
-                            Search
-                        </Menu.Item>
-                        {tabSearch ? (
-                            <Menu.Item>
-                                <SearchComponent size= {size}></SearchComponent>
+       
+                <Segment inverted textAlign='center' style={{ minHeight: '40vh'}} vertical>
+                    <Menu size='large' inverted secondary>
+                        <Container>
+                            <Menu.Item as={Link} name='home' className={location.pathname === '/' ? 'active' : ''} to='/' >Home</Menu.Item>
+                            <Menu.Item name='list' as={Link} to='/list/page/1' className={location.pathname.includes('list') ? 'active' : ''} >List</Menu.Item>
+                            <Menu.Item name='search' as={Link} to='/search' className={location.pathname.includes('search') ? 'active' : ''}  >
+                                Search
                             </Menu.Item>
-                        ) : (
-                            <></>
-                        )
-                        }
-                        <Menu.Item position='right'>
-                            <Button as='a' inverted>Log In</Button>
-                            <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-                        </Menu.Item>
-                    </Container>
-                </Menu>
-                <Segment placeholder inverted vertical textAlign='center'>
-                    <Header as='h1' style={{ textTransform: 'uppercase', fontSize: '2.5em' }} content={header} inverted >
-                    </Header>
+                            {tabSearch ? (
+                                <Menu.Item>
+                                    <SearchComponent size={size}></SearchComponent>
+                                </Menu.Item>
+                            ) : (
+                                <></>
+                            )
+                            }
+                            <Menu.Item position='right'>
+                                <Button as='a' inverted onClick={() => {
+                                    setActiveItem('dkdkkdke')
+
+                                }}>Log In</Button>
+                                <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                            </Menu.Item>
+                        </Container>
+                    </Menu>
+                    <Segment placeholder inverted vertical textAlign='center'>
+                        <Header as='h1' style={{ textTransform: 'uppercase', fontSize: '2.5em' }} content={header} inverted >
+                        </Header>
+                    </Segment>
                 </Segment>
-            </Segment>
         </div>
     )
 }

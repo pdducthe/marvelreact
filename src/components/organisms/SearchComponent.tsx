@@ -7,7 +7,7 @@ import { fetchCharacterList, getCharacterSearch } from '../../store/reducers';
 import { useSelector } from 'react-redux';
 
 (() => {
-    store.dispatch(fetchCharacterList());
+    // store.dispatch(fetchCharacterList());
 })()
 const initialState = {
     loading: false,

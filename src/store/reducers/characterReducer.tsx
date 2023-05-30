@@ -6,7 +6,8 @@ interface CharacterList {
   error: Object,
   status: String,
   characterInfo: Array<any>,
-  searchList: Array<any>
+  searchList: Array<any>,
+  total:number
 }
 
 const initialState: CharacterList = {
@@ -15,6 +16,7 @@ const initialState: CharacterList = {
   status: 'idle',
   characterInfo: [],
   searchList: [],
+  total:0,
 }
 
 const baseURL = `${process.env.REACT_APP_API_MARVEL_SERVER}`;
@@ -24,17 +26,18 @@ const ts = new Date().getTime();
 const md5 = require('md5');
 const stringToHash = ts + privatekey + publickey;
 const hash = md5(stringToHash);
-const url = baseURL + '?' + '&ts=' + ts + '&apikey=' + publickey + '&hash=' + hash;
+const originUrl = baseURL + '?' + '&ts=' + ts + '&apikey=' + publickey + '&hash=' + hash;
 
 export const fetchCharacterList = createAsyncThunk(
   'character/fetchList',
-  async () => {
+  async ({limit, offset}:any) => {
     try {
       const res = await axios({
         method: 'GET',
-        url: url,
+        url: originUrl + `&limit=${limit}` + `&offset=${offset}`,
       })
-      return res.data.data.results
+      // console.log("MARVEL DATA",res)
+      return res.data.data
     } catch (err: any) {
       return err.response
     }
@@ -68,7 +71,9 @@ const characterSlice = createSlice({
       state.characterList = [];
     },
     [fetchCharacterList.fulfilled.type]: (state, action) => {
-      state.characterList = action.payload;
+        // console.log("action",action.payload)
+      state.characterList = action.payload.results;
+      state.total = action.payload.total;
       state.status = 'successful';
     },
     [fetchCharacterList.rejected.type]: (state, action) => {
@@ -87,6 +92,7 @@ const characterIdSlice = createSlice({
   },
   extraReducers: {
     [fetchCharacterListById.pending.type]: (state, action) => {
+      state.characterInfo = [];
       state.status = 'loading';
     },
     [fetchCharacterListById.fulfilled.type]: (state, action) => {

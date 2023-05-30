@@ -3,10 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { Button, Container, Header, Icon, Menu, Segment, Sidebar, SidebarPushable } from 'semantic-ui-react';
 import SearchComponent from './SearchComponent';
 
-function HeaderMobile(size:any) {
+function HeaderMobile(size: any) {
   const [sidebarOpened, setSidebarOpended] = useState(false);
   const [header, setHeader] = useState('Welcome to the World of Comic Characters');
   const [tabSearch, setTabSearh] = useState(false);
+  let location = useLocation();
 
   const handleToggle = () => {
     setSidebarOpended(true)
@@ -31,7 +32,7 @@ function HeaderMobile(size:any) {
         <Sidebar.Pushable>
           <Sidebar as={Menu} animation='overlay' inverted vertical visible={sidebarOpened} onHide={handleSidebarHide}>
             <Menu.Item as='a' active href='/'>Home</Menu.Item>
-            <Menu.Item as='a'>About</Menu.Item>
+            <Menu.Item as='a'>List</Menu.Item>
             <Menu.Item as='a' href='/search'>Search</Menu.Item>
             <Menu.Item as='a'>Log In</Menu.Item>
             <Menu.Item as='a'>Sign Up</Menu.Item>
@@ -39,7 +40,7 @@ function HeaderMobile(size:any) {
           <Sidebar.Pusher dimmed={sidebarOpened}>
             <Segment inverted vertical textAlign='center' style={{ minHeight: 350, padding: '1em 0em' }}>
               <Container>
-                <Menu inverted pointing secondary size='large' style={{ justifyContent:'space-between'}}>
+                <Menu inverted pointing secondary size='large' style={{ justifyContent: 'space-between' }}>
                   <Menu.Item onClick={handleToggle}>
                     <Icon name='sidebar' />
                   </Menu.Item>
