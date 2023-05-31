@@ -19,7 +19,6 @@ function HeaderDesktop(size: any) {
         if (path.pathname.includes("search")) {
             setTabSearh(true)
         }
-        console.log("activeitem", activeItem)
     }, [path.pathname])
 
     // cannot setState or add/remove class for item as Link

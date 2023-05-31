@@ -6,11 +6,6 @@ import { fetchCharacterList, fetchCharacterListById } from '../store/reducers';
 import { NavLink, useParams } from 'react-router-dom';
 import PaginationComponent from '../components/organisms/PaginationComponent';
 
-// interface List {
-//   offset: number,
-//   limit: number,
-//   pageNo?: string
-// }
 
 function CharacterList(param: any) {
   const dispatch = useDispatch<AppDispatch>();

@@ -85,6 +85,39 @@
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .itemHeader {
+    font-size: 1.5em !important;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .itemHeader {
+    font-size: 1em !important;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .itemContent {
+    font-size: 1em !important;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .itemContent {
+    font-size: 0.85em !important;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .itemDescription {
+    font-size: 1em !important;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .itemDescription {
+    font-size: 0.75em !important;
+  }
+}
+
 .items {
   display: flex;
   width: 100%;
@@ -94,4 +127,25 @@
   border-radius: none;
   box-shadow: none;
   gap: 20px;
+}
+
+.qtyColor {
+  color: aqua;
+  font-size: 1.3em;
+}
+
+@media only screen and (max-width: 1024px) {
+  .itemIcon {
+    font-size: 1em !important;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .itemIcon {
+    font-size: 0.75em !important;
+  }
+}
+
+.item .search .results {
+  overflow: auto;
+  max-height: 250px;
 }/*# sourceMappingURL=App.css.map */
