@@ -11,6 +11,7 @@ interface CharacterList {
   searchTotal: number,
   searchValue: string,
   characterListAll: Array<any>,
+  offset: number,
 }
 
 const initialState: CharacterList = {
@@ -23,6 +24,7 @@ const initialState: CharacterList = {
   searchTotal: 0,
   searchValue: '',
   characterListAll: [],
+  offset: 0,
 }
 
 const baseURL = `${process.env.REACT_APP_API_MARVEL_SERVER}`;
@@ -198,7 +200,8 @@ const characterSearchSlice = createSlice({
   initialState,
   reducers: {
     getCharacterSearch(state, action) {
-      state.searchList = action.payload;
+      console.log("action", action.payload)
+      state.offset = 0;
       state.status = 'successful';
     },
   },

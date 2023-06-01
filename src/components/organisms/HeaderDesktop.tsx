@@ -10,7 +10,7 @@ function HeaderDesktop(size: any) {
     const path = useLocation();
     const [activeItem, setActiveItem] = useState('home');
     let location = useLocation();
-    const loading = useSelector((state: any) => state.characterSlice.status)
+    let characterSearch = useSelector((state: any) => state.characterSearchSlice.searchList);
 
     useEffect(() => {
         if (path.pathname.includes("detail")) {
@@ -28,37 +28,35 @@ function HeaderDesktop(size: any) {
 
     return (
         <div>
-       
-                <Segment inverted textAlign='center' style={{ minHeight: '40vh'}} vertical>
-                    <Menu size='large' inverted secondary>
-                        <Container>
-                            <Menu.Item as={Link} name='home' className={location.pathname === '/' ? 'active' : ''} to='/' >Home</Menu.Item>
-                            <Menu.Item name='list' as={Link} to='/list/page/1' className={location.pathname.includes('list') ? 'active' : ''} >List</Menu.Item>
-                            <Menu.Item name='search' as={Link} to='/search' className={location.pathname.includes('search') ? 'active' : ''}  >
-                                Search
+            <Segment inverted textAlign='center' style={{ minHeight: '40vh' }} vertical>
+                <Menu size='large' inverted secondary>
+                    <Container>
+                        <Menu.Item as={Link} name='home' className={location.pathname === '/' ? 'active' : ''} to='/' >Home</Menu.Item>
+                        <Menu.Item name='list' as={Link} to='/list/page/1' className={location.pathname.includes('list') ? 'active' : ''} >List</Menu.Item>
+                        <Menu.Item name='search' as={Link} to='/search' className={location.pathname.includes('search') ? 'active' : ''}  >
+                        </Menu.Item>
+                        {tabSearch ? (
+                            <Menu.Item>
+                                <SearchComponent size={size} data={characterSearch}></SearchComponent>
                             </Menu.Item>
-                            {tabSearch ? (
-                                <Menu.Item>
-                                    <SearchComponent size={size}></SearchComponent>
-                                </Menu.Item>
-                            ) : (
-                                <></>
-                            )
-                            }
-                            <Menu.Item position='right'>
-                                <Button as='a' inverted onClick={() => {
-                                    setActiveItem('dkdkkdke')
+                        ) : (
+                            <></>
+                        )
+                        }
+                        <Menu.Item position='right'>
+                            <Button as='a' inverted onClick={() => {
+                                setActiveItem('dkdkkdke')
 
-                                }}>Log In</Button>
-                                <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-                            </Menu.Item>
-                        </Container>
-                    </Menu>
-                    <Segment placeholder inverted vertical textAlign='center'>
-                        <Header as='h1' style={{ textTransform: 'uppercase', fontSize: '2.5em' }} content={header} inverted >
-                        </Header>
-                    </Segment>
+                            }}>Log In</Button>
+                            <Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+                        </Menu.Item>
+                    </Container>
+                </Menu>
+                <Segment placeholder inverted vertical textAlign='center'>
+                    <Header as='h1' style={{ textTransform: 'uppercase', fontSize: '2.5em' }} content={header} inverted >
+                    </Header>
                 </Segment>
+            </Segment>
         </div>
     )
 }

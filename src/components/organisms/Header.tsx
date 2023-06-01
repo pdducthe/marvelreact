@@ -31,7 +31,7 @@ function Header() {
           <HeaderMobile size={breakpoints.sm} />
         </Media>
         <Media greaterThan='sm' >
-          <HeaderDesktop size={breakpoints.md}/>
+          <HeaderDesktop size={breakpoints.md} />
         </Media>
       </MediaContextProvider>
     </div>

@@ -4,12 +4,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
 import { store } from '../../store/configStore';
 import { fetchCharacterList, fetchCharacterListAll, fetchCharacterSearch, getCharacterSearch } from '../../store/reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import CharacterSearch from '../../pages/CharacterSearch';
 
-(() => {
-    // store.dispatch(fetchCharacterList({ limit: 100, offset: 0 }));
-    // store.dispatch(fetchCharacterListAll());
-})()
 const initialState = {
     loading: false,
     results: [],
@@ -21,61 +18,72 @@ function exampleReducer(state: any, action: any) {
         case 'CLEAN_QUERY':
             return initialState
         case 'START_SEARCH':
-            // console.log("VALUE INPUT",action.query)
             return { ...state, loading: true, value: action.query }
         case 'FINISH_SEARCH':
-            console.log("RESULTS FINISH", action.results)
             return { ...state, loading: false, results: action.results }
         case 'UPDATE_SELECTION':
+            store.dispatch(getCharacterSearch(action.results))
             return { ...state, results: action.results }
-
         default:
             throw new Error()
     }
 }
+
+function handleSelection() {
+    // console.log("on mouse down")
+}
+
 const resultRenderer = ({ name }: any) => <Label content={name} />
 
-function SearchComponent(size: any) {
-    let source: any = store.getState().characterSearchSlice.searchList;
-    const [suggestData, setSuggestData] = useState(source);
+function SearchComponent(props: any) {
     const [state, dispatch] = React.useReducer(exampleReducer, initialState);
     const { loading, results, value } = state;
-    const [searchInput, setSearchInput] = useState(state.value)
-    type Timer = ReturnType<typeof setTimeout>
+    const [suggestData, setSuggestData] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
+
+    const dispatchA = useDispatch();
+    type Timer = ReturnType<typeof setTimeout>;
     const timeoutRef = React.useRef<any>(null);
 
     useEffect(() => {
         if (searchInput !== '') {
-            store.dispatch(fetchCharacterSearch({ name: searchInput, offset: 0 }));
-            localStorage.setItem("searchInput", searchInput) //save input value to localstorage
+            localStorage.setItem("searchInput", searchInput) //save input value to localstorage for later use
+            store.dispatch(fetchCharacterSearch({ name: searchInput, offset: 0 })); 
+        } else if (searchInput === '') {
+            store.dispatch(getCharacterSearch([]))
         }
+        store.dispatch(getCharacterSearch(0))
+        //props received from HeaderDesktop component, trying to setState for it out of useEffect will cause a race if HeaderDesktop is also re-rendering
+        setSuggestData(props.data)
     }, [searchInput])
 
+    //load data for suggestion from props (header desktop)
     useEffect(() => {
-        store.dispatch(getCharacterSearch(results));
-    }, [results])
+        dispatch({
+            type: 'FINISH_SEARCH',
+            results: props.data
+        })
+    }, [props])
 
-    console.log("SOURCE CHANGE or NOT", source)
-    // const handleSearchChange = React.useCallback((e: any, data: any) => {
-    const handleSearchChange = (e: any, data: any) => {
+    const handleSearchChange = React.useCallback((e: any, data: any) => {
         clearTimeout(timeoutRef.current)
+   
         dispatch({ type: 'START_SEARCH', query: data.value })
+        setSearchInput(data.value)
         timeoutRef.current = setTimeout(async () => {
             if (data.value.length === 0) {
                 dispatch({ type: 'CLEAN_QUERY' })
                 return
             }
-            setSearchInput(data.value)
-            console.log("STOREFOR SUGGEST", source)
-            // store.dispatch(fetchCharacterSearch(data.value))
-            dispatch({
-                type: 'FINISH_SEARCH',
-                results: source.filter(function (el: any) {
-                    return el.name.toLowerCase().includes(data.value.toLowerCase().trim())
-                })
-            })
+
+            // dispatch({
+            //     type: 'FINISH_SEARCH',
+            //     results: props.data
+            //     // results: searchSuggest.filter(function (el: any) {
+            //     //     return el.name.toLowerCase().includes(data.value.toLowerCase().trim())
+            // })
         }, 1000)
-    }
+    }, [searchInput])
 
     React.useEffect(() => {
         return () => {
@@ -85,23 +93,26 @@ function SearchComponent(size: any) {
     return (
 
         <Search
-            size={size.size.size == 0 ? 'small' : 'large'}
+            size={props.size.size == 0 ? 'small' : 'large'}
             loading={loading}
             onResultSelect={(e, data) => {
+                console.log("data select", data.result.name)
                 dispatch({
                     type: 'UPDATE_SELECTION',
-                    results: suggestData.filter((obj: any) => {
+                    results: props.data.filter((obj: any) => {
                         //"name" property: its value contains "anyname" =>the value have  ".." Double quotation marks && name
                         return obj.name.toLowerCase().includes(`${data.result.name}`.toLowerCase().trim());
                     })
                 });
+
             }}
+            onMouseDown={handleSelection}
             onSearchChange={handleSearchChange}
             resultRenderer={resultRenderer}
             results={results}
             value={value}
-            placeholder='Search .....'
-        // showNoResults={false}
+            placeholder={'Search...'}
+
         />
 
     )
