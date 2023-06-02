@@ -10,7 +10,7 @@ function HeaderDesktop(size: any) {
     const path = useLocation();
     const [activeItem, setActiveItem] = useState('home');
     let location = useLocation();
-    let characterSearch = useSelector((state: any) => state.characterSearchSlice.searchList);
+    let characterList = useSelector((state: any) => state.characterSearchSlice.searchResult);
 
     useEffect(() => {
         if (path.pathname.includes("detail")) {
@@ -37,7 +37,7 @@ function HeaderDesktop(size: any) {
                         </Menu.Item>
                         {tabSearch ? (
                             <Menu.Item>
-                                <SearchComponent size={size} data={characterSearch}></SearchComponent>
+                                <SearchComponent size={size} data={characterList}></SearchComponent>
                             </Menu.Item>
                         ) : (
                             <></>

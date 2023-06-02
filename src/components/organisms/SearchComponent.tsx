@@ -22,7 +22,7 @@ function exampleReducer(state: any, action: any) {
         case 'FINISH_SEARCH':
             return { ...state, loading: false, results: action.results }
         case 'UPDATE_SELECTION':
-            store.dispatch(getCharacterSearch(action.results))
+            store.dispatch(getCharacterSearch({list:action.results,reset:false}))
             return { ...state, results: action.results }
         default:
             throw new Error()
@@ -50,11 +50,13 @@ function SearchComponent(props: any) {
             localStorage.setItem("searchInput", searchInput) //save input value to localstorage for later use
             store.dispatch(fetchCharacterSearch({ name: searchInput, offset: 0 })); 
         } else if (searchInput === '') {
-            store.dispatch(getCharacterSearch([]))
+            console.log("empty query")
+            store.dispatch(getCharacterSearch({list:[]}))
         }
-        store.dispatch(getCharacterSearch(0))
         //props received from HeaderDesktop component, trying to setState for it out of useEffect will cause a race if HeaderDesktop is also re-rendering
         setSuggestData(props.data)
+        //set offset store true as changing input
+        store.dispatch(getCharacterSearch({list:[],reset:true}))
     }, [searchInput])
 
     //load data for suggestion from props (header desktop)
@@ -67,7 +69,6 @@ function SearchComponent(props: any) {
 
     const handleSearchChange = React.useCallback((e: any, data: any) => {
         clearTimeout(timeoutRef.current)
-   
         dispatch({ type: 'START_SEARCH', query: data.value })
         setSearchInput(data.value)
         timeoutRef.current = setTimeout(async () => {
@@ -96,7 +97,6 @@ function SearchComponent(props: any) {
             size={props.size.size == 0 ? 'small' : 'large'}
             loading={loading}
             onResultSelect={(e, data) => {
-                console.log("data select", data.result.name)
                 dispatch({
                     type: 'UPDATE_SELECTION',
                     results: props.data.filter((obj: any) => {

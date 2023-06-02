@@ -11,7 +11,8 @@ interface CharacterList {
   searchTotal: number,
   searchValue: string,
   characterListAll: Array<any>,
-  offset: number,
+  resetOffset: boolean,
+  searchResult: Array<any>
 }
 
 const initialState: CharacterList = {
@@ -24,7 +25,8 @@ const initialState: CharacterList = {
   searchTotal: 0,
   searchValue: '',
   characterListAll: [],
-  offset: 0,
+  resetOffset: false,
+  searchResult: []
 }
 
 const baseURL = `${process.env.REACT_APP_API_MARVEL_SERVER}`;
@@ -200,8 +202,9 @@ const characterSearchSlice = createSlice({
   initialState,
   reducers: {
     getCharacterSearch(state, action) {
-      console.log("action", action.payload)
-      state.offset = 0;
+      state.searchList = action.payload.list;
+      state.searchResult = action.payload.list;
+      state.resetOffset = action.payload.reset;
       state.status = 'successful';
     },
   },
@@ -209,10 +212,11 @@ const characterSearchSlice = createSlice({
     [fetchCharacterSearch.pending.type]: (state, action) => {
       state.status = 'loading';
       state.searchList = [];
+      // state.searchResult = [];
     },
     [fetchCharacterSearch.fulfilled.type]: (state, action) => {
       if (action.payload.results !== undefined) {
-        // state.searchList = [...state.searchList,...action.payload.results];
+        state.searchResult = [...state.searchResult, ...action.payload.results];
         state.searchList = action.payload.results;
       } else {
         state.searchList = [];
@@ -222,6 +226,7 @@ const characterSearchSlice = createSlice({
     },
     [fetchCharacterSearch.rejected.type]: (state, action) => {
       state.searchList = [];
+      state.searchResult = [];
       state.status = 'failed';
       state.error = action;
     }
